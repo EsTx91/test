@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Video y Continuar</title>
+</head>
+<body>
+
+    <!-- Contenedor del reproductor de YouTube -->
+    <div id="player"></div>
+
+    <!-- Botón para redirigir a Google Forms (deshabilitado inicialmente) -->
+    <button id="btnContinuar" disabled>Continuar al formulario</button>
+
+    <script>
+        // Función que carga la API de YouTube de forma asíncrona
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // Variable para almacenar el reproductor
+        var player;
+
+        // Función que crea el reproductor de YouTube
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '360',
+                width: '640',
+                videoId: '309sdAbE8Yo', // Reemplaza con el ID de tu video de YouTube
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 1,
+                    'disablekb': 1, // Desactiva el uso del teclado para adelantar
+                    'modestbranding': 1
+                },
+                events: {
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        // Función que detecta cuando el video ha terminado
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.ENDED) {
+                document.getElementById("btnContinuar").disabled = false;
+            }
+        }
+
+        // Redirigir al usuario a Google Forms cuando el botón esté habilitado
+        document.getElementById("btnContinuar").addEventListener("click", function() {
+            window.location.href = "https://forms.gle/wNZLdsusG9dNTrM1A"; // Reemplaza con el enlace de tu Google Form
+        });
+    </script>
+
+</body>
+</html>
